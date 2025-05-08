@@ -1,0 +1,48 @@
+#cnv-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: fit-content;
+}
+
+body {
+    background-color: black;
+    color: aliceblue;
+}
+
+.instruct-container {
+    width: 300px;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+
+}
+
+#pattern {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1;
+    height: fit-content;
+    position: absolute;
+    bottom: 100px;
+    left: 25%;
+}
+
+#ins {
+    height: fit-content;
+}
+
+#line-container {
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: fit-content;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
