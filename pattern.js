@@ -1,6 +1,6 @@
 function radial(p) {
     let maxLen, minLen;
-    let adjust = 11;
+    let adjust = 15;
     p.setup = () => {
         let pat = p.createCanvas(p.windowWidth / 2, p.windowHeight);
         pat.parent("pattern");
@@ -47,7 +47,7 @@ function radial(p) {
     }
 
     p.adjustPattern = (ang) => {
-        adjust = p.map(ang, -90, 90, 11, 27);
+        adjust = p.map(ang, -90, 90, 11, 30);
 
     }
 }

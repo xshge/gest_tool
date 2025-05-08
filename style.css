@@ -9,6 +9,7 @@
 body {
     background-color: black;
     color: aliceblue;
+    overflow: hidden;
 }
 
 .instruct-container {
@@ -16,6 +17,23 @@ body {
     height: 100vh;
     position: absolute;
     right: 0;
+
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    height: fit-content;
+    position: absolute;
+    left: 5%;
+    bottom: 50%;
+}
+
+.icons img {
+    width: 50%;
+    height: 50%;
 
 }
 
@@ -35,14 +53,13 @@ body {
     height: fit-content;
 }
 
-#line-container {
+#lineContainer {
     display: flex;
-    width: fit-content;
+    width: 100vw;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    height: fit-content;
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
+    height: 200px;
+    position: relative;
+
 }

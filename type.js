@@ -1,8 +1,9 @@
-let titles = ["Game Designer", "Web Developer", "type test2", "type test 3", "type 4"];
+let titles = ["Welcome to gesture tool, an interactive experience where you can navigate around the website in real life.This interaction will require the use of your webcam.Use your index finger to look through rest of the instruction.", "Web Developer", "type test2", "type test 3"];
 
 let waitTime = 100;
 let paused = false;
 let curIndex = 0;
+let prevIndex = "";
 
 let type = document.getElementById("ins");
 
@@ -14,15 +15,12 @@ function sleep(ms) {
 async function instructionLoop() {
 
 
-    if (!paused) {
+    if (prevIndex != curIndex) {
         console.log("called");
         let curInstruc = titles[curIndex];
 
         for (let i = 0; i < curInstruc.length; i++) {
 
-            if (paused) {
-                break;
-            }
             type.innerText = curInstruc.substring(0, i + 1);
             await sleep(waitTime);
 
@@ -56,11 +54,16 @@ export async function change(selectedNumb) {
 
     if (curIndex != selectedNumb) {
 
+        prevIndex = curIndex;
         await instructionDelete();
 
         curIndex = selectedNumb;
         await sleep(waitTime);
-        instructionLoop();
+
+        if (!paused) {
+            instructionLoop();
+
+        }
 
     }
 

@@ -12,7 +12,6 @@ const handSketch = (p) => {
         [209, 17, 73],
         [230, 194, 41],
         [241, 113, 5],
-        [26, 143, 227],
     ];
     let painting;
     let symmetry = 6;
@@ -33,18 +32,24 @@ const handSketch = (p) => {
             this.size = size;
             this.x = x;
             this.y = y;
-            this.actualx = 0;
+            this.actualy = 0;
             this.selected = false;
             this.line = lineInd;
         }
 
         show(offset) {
+            let n = this.line + 1;
+            const midX = (this.x + this.size);
+            this.actualy = this.y * offset;
             p.rectMode(p.CENTER);
             cGuis.strokeWeight(this.selected ? 4 : 1);
-            cGuis.stroke(this.selected ? 255 : 0);
-            cGuis.fill(this.r, this.g, this.b);
-            cGuis.rect(this.x * offset, this.y, this.size, this.size);
-            this.actualx = this.x * offset;
+            cGuis.stroke(this.selected ? 255 : 150);
+            // cGuis.fill(this.r, this.g, this.b);
+            cGuis.noFill();
+            cGuis.text(`${n}`, this.x, this.actualy + this.size);
+            cGuis.textSize(50);
+            cGuis.rect(this.x, this.y * offset, this.size, this.size);
+
         }
 
         selectColor() {
@@ -76,25 +81,23 @@ const handSketch = (p) => {
         painting.clear();
         cGuis.clear();
 
-
-        btn2 = p.createButton("Save");
-        btn2.position(60, winHeight);
-        btn2.mousePressed(() => painting.save());
-        btn2.addClass("btn");
-
         video = p.createCapture(p.VIDEO, { flipped: true });
         video.hide();
         scale = video.width / winWidth;
-
+        let squareSize = 100 * scale;
+        let spacing = 20 * scale;
+        let margin = 20 * scale;
         for (let i = 0; i < cols.length; i++) {
-            let _x = i * (50 + 20);
+            // let _y = i * (50 + 20);
+            let y = margin + i * (squareSize + spacing); // vertical stacking
+            let x = p.width - squareSize - margin; // aligned to right with some margin
             let colour = new colorSelector(
                 cols[i][0],
                 cols[i][1],
                 cols[i][2],
-                50 * scale,
-                _x * scale,
-                20 * scale,
+                squareSize,
+                x,
+                y,
                 i
             );
             colours.push(colour);
@@ -183,14 +186,15 @@ const handSketch = (p) => {
 
     function determineColor(col, indexTip) {
         let offset = col.size / 2;
-        let y_center = col.y + offset;
-        let x_center = col.actualx + offset;
+        let x_center = col.x;
+        let y_center = col.actualy;
 
+        // Proper boundary check: indexTip must be within the square
         if (
-            indexTip.y < y_center + offset &&
-            indexTip.y > y_center - offset &&
+            indexTip.x > x_center - offset &&
             indexTip.x < x_center + offset &&
-            indexTip.x > x_center - offset
+            indexTip.y > y_center - offset &&
+            indexTip.y < y_center + offset
         ) {
             col.selected = true;
             return true;
