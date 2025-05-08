@@ -1,9 +1,12 @@
-let titles = ["Welcome to gesture tool, an interactive experience where you can navigate around the website in real life.This interaction will require the use of your webcam.Use your index finger to look through rest of the instruction.", "Web Developer", "type test2", "type test 3"];
+let titles = ["Welcome to gesture tool, an interactive experience where you can navigate around the website in real life. This interaction will require the use of your webcam. Use your index finger to look through rest of the instruction.",
+    "Please use one hand at the time.",
+    "Using left hand, pinch with your thumb and index finger. Adjust slowly to see the changes on the website.",
+    "Using right hand, turn your wrist while holding the preferred gesture to see the changes on the website."];
 
 let waitTime = 100;
 let paused = false;
 let curIndex = 0;
-let prevIndex = "";
+let prevIndex = 10;
 
 let type = document.getElementById("ins");
 

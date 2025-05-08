@@ -24,6 +24,7 @@ const handSketch = (p) => {
     let lastPtPos = null;
     let currentPos = { x: 0, y: 0 };
     let smoothedAngle = 0;
+    let img;
     class colorSelector {
         constructor(r, g, b, size, x, y, lineInd) {
             this.r = r;
@@ -67,6 +68,7 @@ const handSketch = (p) => {
         handPose = ml5.handPose({ flipped: true });
         winWidth = p.windowWidth / 2;
         winHeight = p.windowHeight / 2;
+        img = p.loadImage('assets/Eye.png');
     };
 
     p.setup = function () {
@@ -118,9 +120,18 @@ const handSketch = (p) => {
             let x = (index.x + thumb.x) * 0.5;
             let y = (index.y + thumb.y) * 0.5;
             let d = p.dist(index.x, index.y, thumb.x, thumb.y);
+            let wrist = hand.wrist;
+
+            p.push();
+            p.translate(wrist.x, wrist.y);   // move origin to wrist
+            p.rotate(p.radians(smoothedAngle));  // optional rotation
+            p.imageMode(p.CENTER);
+            p.image(img, 0, 0, 100, 100);   // draw at new origin
+            p.pop();
+
 
             if (hand.handedness == "Right") {
-                let wrist = hand.wrist;
+
                 if (d > 20) {
                     console.log(index.x);
 
@@ -169,9 +180,25 @@ const handSketch = (p) => {
             }
 
             p.push();
+            let thumbs = [{ tCX: hand.thumb_cmc.x, tcY: hand.thumb_cmc.y }, { tmX: hand.thumb_ip.x, tmY: hand.thumb_ip.y }];
+            let indexPts = [{ idX: hand.index_finger_dip.x, idY: hand.index_finger_dip.y }, { imX: hand.index_finger_mcp.x, imY: hand.index_finger_mcp.y }];
             p.fill(255);
+            p.stroke(255);
+            p.strokeWeight(5);
+            //index connections
             p.circle(index.x, index.y, 20);
+            p.line(index.x, index.y, indexPts[0].idX, indexPts[0].idY);
+            p.circle(indexPts[0].idX, indexPts[0].idY, 20);
+            p.line(indexPts[0].idX, indexPts[0].idY, indexPts[1].imX, indexPts[1].imY);
+            p.circle(indexPts[1].imX, indexPts[1].imY, 20);
+
+            //thumbs key points
+
             p.circle(thumb.x, thumb.y, 20);
+            p.line(thumb.x, thumb.y, thumbs[0].tCX, thumbs[0].tcY);
+            p.circle(thumbs[0].tCX, thumbs[0].tcY, 20);
+            p.line(thumbs[0].tCX, thumbs[0].tcY, thumbs[1].tmX, thumbs[1].tmY);
+            p.circle(thumbs[1].tmX, thumbs[1].tmY, 20);
             p.pop();
         }
 
